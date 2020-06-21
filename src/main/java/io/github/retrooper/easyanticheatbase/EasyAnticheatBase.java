@@ -1,10 +1,13 @@
 package io.github.retrooper.easyanticheatbase;
 
 
+import com.google.gson.internal.$Gson$Preconditions;
 import io.github.retrooper.easyanticheatbase.check.api.PrivateCheck;
 import io.github.retrooper.easyanticheatbase.check.api.PublicCheck;
 import io.github.retrooper.easyanticheatbase.check.manager.CheckManager;
 import io.github.retrooper.easyanticheatbase.events.CheckEvent;
+import io.github.retrooper.easyanticheatbase.events.PrivateCheckEvent;
+import io.github.retrooper.easyanticheatbase.events.PublicCheckEvent;
 import io.github.retrooper.easyanticheatbase.example.TestPrivateCheck;
 import io.github.retrooper.easyanticheatbase.example.TestPublicCheck;
 import io.github.retrooper.easyanticheatbase.playerdata.PlayerData;
@@ -39,13 +42,14 @@ public final class EasyAnticheatBase implements PacketListener {
     @PacketHandler
     public void onPostInject(PostPlayerInjectEvent event) {
         final PlayerData data = getPlayerDataManager().registerUser(event.getPlayer().getUniqueId());
-
         getCheckManager().addCheck(new TestPrivateCheck(data));
+        event.getPlayer().sendMessage("You have been registered");
     }
 
     @PacketHandler
     public void onUninject(PlayerUninjectEvent event) {
         getPlayerDataManager().unregisterUser(event.getPlayer().getUniqueId());
+        getCheckManager().getPrivateChecksMap().remove(event.getPlayer().getUniqueId());
     }
 
     @PacketHandler
@@ -53,9 +57,10 @@ public final class EasyAnticheatBase implements PacketListener {
         //Cause has been fed into the constructor
         final CheckEvent checkEvent = new CheckEvent(event);
         for (final PublicCheck publicCheck : getCheckManager().getPublicChecks()) {
-            publicCheck.onPreCheck(checkEvent);
+            PublicCheckEvent publicCheckEvent = new PublicCheckEvent(event);
+            publicCheck.onPreCheck(publicCheckEvent);
         }
-        if (getCheckManager().getPrivateChecksMap().size() == 0) return;
+        System.out.println("we passed");
         final UUID uuid;
         if (event instanceof PacketReceiveEvent) {
             PacketReceiveEvent e = (PacketReceiveEvent) event;
@@ -74,7 +79,8 @@ public final class EasyAnticheatBase implements PacketListener {
         }
 
         for (final PrivateCheck privateCheck : getCheckManager().getPrivateChecks(uuid)) {
-            privateCheck.onPreCheck(checkEvent);
+            PrivateCheckEvent privateCheckEvent = new PrivateCheckEvent(event);
+            privateCheck.onPreCheck(privateCheckEvent);
         }
 
     }
@@ -84,7 +90,7 @@ public final class EasyAnticheatBase implements PacketListener {
     }
 
     public static PlayerDataManager getPlayerDataManager() {
-        return playerDataManager;
+        return playerDataManager == null ? playerDataManager = new PlayerDataManager() : playerDataManager;
     }
 
     public static EasyAnticheatBase getInstance() {

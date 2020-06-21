@@ -18,14 +18,16 @@ public final class CheckManager {
             publicChecks.add((PublicCheck) check);
         } else if (check instanceof PrivateCheck) {
             PrivateCheck privateCheck = (PrivateCheck)check;
+            if(privateCheck.getPlayerData() == null || privateCheck.getPlayerData().getUniqueId() == null)return;
+            final List<PrivateCheck> list;
             if(privateChecks.containsKey(privateCheck.getPlayerData().getUniqueId())) {
-                privateChecks.get(privateCheck.getPlayerData().getUniqueId()).add(privateCheck);
+                list = privateChecks.get(privateCheck.getPlayerData().getUniqueId());
             }
             else {
-                List<PrivateCheck> list = new ArrayList<PrivateCheck>();
-                list.add(privateCheck);
-                privateChecks.put(privateCheck.getPlayerData().getUniqueId(), list);
+                list = new ArrayList<PrivateCheck>();
             }
+            list.add(privateCheck);
+            privateChecks.put(privateCheck.getPlayerData().getUniqueId(), list);
         }
     }
 

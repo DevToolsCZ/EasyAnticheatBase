@@ -7,7 +7,7 @@ import io.github.retrooper.easyanticheatbase.playerdata.PlayerData;
 import io.github.retrooper.packetevents.event.impl.PacketReceiveEvent;
 
 public class TestPrivateCheck extends PrivateCheck {
-    private int ping;
+    private int ping = 0;
     public TestPrivateCheck(PlayerData data) {
         super(data, "TestCheck", 'B', Category.MOVEMENT);
     }
