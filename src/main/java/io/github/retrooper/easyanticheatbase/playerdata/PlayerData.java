@@ -11,10 +11,10 @@ public final class PlayerData {
 
     //EXAMPLE VARIABLES, APPEND OR REMOVE if you like
 
-    public int ping;
-    public int cps;
+    public int ping = 0;
+    public int cps = 0;
 
-    public float yaw, pitch;
+    public float yaw = 0F, pitch = -90F;
 
     public UUID getUniqueId() {
         return uuid;

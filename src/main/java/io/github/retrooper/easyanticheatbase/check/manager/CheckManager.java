@@ -3,8 +3,6 @@ package io.github.retrooper.easyanticheatbase.check.manager;
 import io.github.retrooper.easyanticheatbase.check.api.Check;
 import io.github.retrooper.easyanticheatbase.check.api.PrivateCheck;
 import io.github.retrooper.easyanticheatbase.check.api.PublicCheck;
-import io.github.retrooper.easyanticheatbase.playerdata.PlayerData;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
