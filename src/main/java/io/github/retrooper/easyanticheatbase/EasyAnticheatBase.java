@@ -45,8 +45,6 @@ public final class EasyAnticheatBase implements PacketListener {
     public void onPostInject(PostPlayerInjectEvent event) {
         final PlayerData data = getPlayerDataManager().registerUser(event.getPlayer().getUniqueId());
         getCheckManager().addCheck(new TestPrivateCheck(data));
-        //a
-        event.getPlayer().sendMessage("You have been registered");
     }
 
     @PacketHandler

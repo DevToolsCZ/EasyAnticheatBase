@@ -17,8 +17,7 @@ public class TestPublicCheck extends PublicCheck {
         if(e.getCauseEvent() instanceof PacketReceiveEvent) {
             PacketReceiveEvent receiveEvent = (PacketReceiveEvent)e.getCauseEvent();
             PlayerData data = EasyAnticheatBase.getPlayerDataManager().find(receiveEvent.getPlayer().getUniqueId());
-
-            //System.out.println(receiveEvent.getPlayer().getUniqueId() + "'s ping is " + data.ping++);
+            //receiveEvent.getPlayer().sendMessage("your packet count value is " + data.packetCount++);
         }
         return super.onCheck(e);
     }
