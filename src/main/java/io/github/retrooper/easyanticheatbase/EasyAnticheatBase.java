@@ -1,7 +1,6 @@
 package io.github.retrooper.easyanticheatbase;
 
 
-import com.google.gson.internal.$Gson$Preconditions;
 import io.github.retrooper.easyanticheatbase.check.api.PrivateCheck;
 import io.github.retrooper.easyanticheatbase.check.api.PublicCheck;
 import io.github.retrooper.easyanticheatbase.check.manager.CheckManager;
@@ -16,7 +15,10 @@ import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.annotations.PacketHandler;
 import io.github.retrooper.packetevents.event.PacketEvent;
 import io.github.retrooper.packetevents.event.PacketListener;
-import io.github.retrooper.packetevents.event.impl.*;
+import io.github.retrooper.packetevents.event.impl.PacketReceiveEvent;
+import io.github.retrooper.packetevents.event.impl.PacketSendEvent;
+import io.github.retrooper.packetevents.event.impl.PlayerUninjectEvent;
+import io.github.retrooper.packetevents.event.impl.PostPlayerInjectEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.util.UUID;
@@ -60,24 +62,26 @@ public final class EasyAnticheatBase implements PacketListener {
             PublicCheckEvent publicCheckEvent = new PublicCheckEvent(event);
             publicCheck.onPreCheck(publicCheckEvent);
         }
-        System.out.println("we passed");
+
         final UUID uuid;
         if (event instanceof PacketReceiveEvent) {
             PacketReceiveEvent e = (PacketReceiveEvent) event;
             uuid = e.getPlayer().getUniqueId();
         } else if (event instanceof PacketSendEvent) {
             PacketSendEvent e = (PacketSendEvent) event;
-            uuid = e.getPlayer().getUniqueId();
-        } else if (event instanceof PlayerInjectEvent) {
-            PlayerInjectEvent e = (PlayerInjectEvent) event;
-            uuid = e.getPlayer().getUniqueId();
+            if (e.getPlayer() == null) {
+                uuid = null;
+            } else {
+                uuid = e.getPlayer().getUniqueId();
+            }
         } else if (event instanceof PostPlayerInjectEvent) {
             PostPlayerInjectEvent e = (PostPlayerInjectEvent) event;
             uuid = e.getPlayer().getUniqueId();
         } else {
             return;
         }
-
+        if (uuid == null) return;
+        if (!getCheckManager().getPrivateChecksMap().containsKey(uuid)) return;
         for (final PrivateCheck privateCheck : getCheckManager().getPrivateChecks(uuid)) {
             PrivateCheckEvent privateCheckEvent = new PrivateCheckEvent(event);
             privateCheck.onPreCheck(privateCheckEvent);
