@@ -39,7 +39,7 @@ public final class EasyAnticheatBase implements PacketListener {
     }
 
     @PacketHandler
-    public void onPostInject(PlayerInjectEvent event) {
+    public void onInject(PlayerInjectEvent event) {
         final PlayerData data = getPlayerDataManager().registerUser(event.getPlayer().getUniqueId());
         getCheckManager().addCheck(new TestPrivateCheck(data));
     }
