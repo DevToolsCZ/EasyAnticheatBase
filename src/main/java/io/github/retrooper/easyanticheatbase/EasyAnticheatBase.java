@@ -15,10 +15,7 @@ import io.github.retrooper.packetevents.PacketEvents;
 import io.github.retrooper.packetevents.annotations.PacketHandler;
 import io.github.retrooper.packetevents.event.PacketEvent;
 import io.github.retrooper.packetevents.event.PacketListener;
-import io.github.retrooper.packetevents.event.impl.PacketReceiveEvent;
-import io.github.retrooper.packetevents.event.impl.PacketSendEvent;
-import io.github.retrooper.packetevents.event.impl.PlayerUninjectEvent;
-import io.github.retrooper.packetevents.event.impl.PostPlayerInjectEvent;
+import io.github.retrooper.packetevents.event.impl.*;
 import org.bukkit.plugin.Plugin;
 
 import java.util.UUID;
@@ -42,7 +39,7 @@ public final class EasyAnticheatBase implements PacketListener {
     }
 
     @PacketHandler
-    public void onPostInject(PostPlayerInjectEvent event) {
+    public void onPostInject(PlayerInjectEvent event) {
         final PlayerData data = getPlayerDataManager().registerUser(event.getPlayer().getUniqueId());
         getCheckManager().addCheck(new TestPrivateCheck(data));
     }
@@ -61,7 +58,6 @@ public final class EasyAnticheatBase implements PacketListener {
             PublicCheckEvent publicCheckEvent = new PublicCheckEvent(event);
             publicCheck.onPreCheck(publicCheckEvent);
         }
-
         final UUID uuid;
         if (event instanceof PacketReceiveEvent) {
             PacketReceiveEvent e = (PacketReceiveEvent) event;
@@ -73,10 +69,19 @@ public final class EasyAnticheatBase implements PacketListener {
             } else {
                 uuid = e.getPlayer().getUniqueId();
             }
-        } else if (event instanceof PostPlayerInjectEvent) {
-            PostPlayerInjectEvent e = (PostPlayerInjectEvent) event;
+        } else if (event instanceof PlayerInjectEvent) {
+            PlayerInjectEvent e = (PlayerInjectEvent) event;
             uuid = e.getPlayer().getUniqueId();
-        } else {
+        }
+        else if(event instanceof PlayerUninjectEvent) {
+            PlayerUninjectEvent e = (PlayerUninjectEvent)event;
+            uuid = e.getPlayer().getUniqueId();
+        }
+        else if(event instanceof BukkitMoveEvent) {
+            BukkitMoveEvent e = (BukkitMoveEvent)event;
+            uuid= e.getPlayer().getUniqueId();
+        }
+        else {
             return;
         }
         if (uuid == null) return;

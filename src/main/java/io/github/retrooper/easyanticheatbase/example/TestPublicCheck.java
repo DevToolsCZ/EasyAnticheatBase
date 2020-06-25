@@ -16,8 +16,13 @@ public class TestPublicCheck extends PublicCheck {
     public PublicCheckEvent onCheck(PublicCheckEvent e) {
         if(e.getCauseEvent() instanceof PacketReceiveEvent) {
             PacketReceiveEvent receiveEvent = (PacketReceiveEvent)e.getCauseEvent();
+            if(receiveEvent.getPlayer() == null || receiveEvent.getPlayer().getUniqueId() == null) {
+                return e;
+            }
             PlayerData data = EasyAnticheatBase.getPlayerDataManager().find(receiveEvent.getPlayer().getUniqueId());
-            //receiveEvent.getPlayer().sendMessage("your packet count value is " + data.packetCount++);
+            if(data ==null) {
+                return e;
+            }
         }
         return super.onCheck(e);
     }

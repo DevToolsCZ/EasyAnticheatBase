@@ -4,6 +4,7 @@ import io.github.retrooper.easyanticheatbase.check.api.data.Category;
 import io.github.retrooper.easyanticheatbase.events.CheckEvent;
 import io.github.retrooper.easyanticheatbase.events.PrivateCheckEvent;
 import io.github.retrooper.easyanticheatbase.playerdata.PlayerData;
+import org.bukkit.Bukkit;
 
 public abstract class PrivateCheck extends Check{
     private final PlayerData playerData;
@@ -13,7 +14,7 @@ public abstract class PrivateCheck extends Check{
     }
 
     @Override
-    public CheckEvent onPreCheck(CheckEvent checkEvent) {
+    public CheckEvent onPreCheck(final CheckEvent checkEvent) {
         if(checkEvent instanceof PrivateCheckEvent) {
             onCheck((PrivateCheckEvent) checkEvent);
         }
@@ -21,8 +22,28 @@ public abstract class PrivateCheck extends Check{
     }
 
 
-    public PrivateCheckEvent onCheck(PrivateCheckEvent e) {
+    public PrivateCheckEvent onCheck(final PrivateCheckEvent e) {
         return e;
+    }
+
+    public void violate() {
+        getPlayerData().incrementVL(this);
+    }
+
+    public void comply(){
+        getPlayerData().decrementVL(this);
+    }
+
+    public float getVL() {
+        return getPlayerData().getVLCount(this);
+    }
+
+    public void clearVL() {
+        getPlayerData().clearVL(this);
+    }
+
+    public void flag(final String message) {
+        System.out.println(message);
     }
 
     public final PlayerData getPlayerData() {

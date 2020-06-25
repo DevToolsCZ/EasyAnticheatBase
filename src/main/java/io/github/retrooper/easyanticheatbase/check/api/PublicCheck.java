@@ -11,7 +11,7 @@ public abstract class PublicCheck extends Check {
     }
 
     @Override
-    public CheckEvent onPreCheck(CheckEvent e) {
+    public CheckEvent onPreCheck(final CheckEvent e) {
         if(e instanceof PublicCheckEvent) {
             onCheck((PublicCheckEvent)e);
         }
@@ -19,7 +19,7 @@ public abstract class PublicCheck extends Check {
     }
 
 
-    public PublicCheckEvent onCheck(PublicCheckEvent e) {
+    public PublicCheckEvent onCheck(final PublicCheckEvent e) {
         return e;
     }
 }
