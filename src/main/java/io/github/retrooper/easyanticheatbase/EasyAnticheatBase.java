@@ -26,9 +26,13 @@ public final class EasyAnticheatBase implements PacketListener {
     private static CheckManager checkManager;
     private static PlayerDataManager playerDataManager;
 
+    static {
+        PacketEvents.load();
+    }
+
     public static void start(Plugin plugin) {
         PacketEvents.start(plugin);
-        PacketEvents.getEventManager().registerListener(getInstance());
+        PacketEvents.getAPI().getEventManager().registerListener(getInstance());
 
         getCheckManager().addCheck(new TestPublicCheck());
     }
@@ -72,16 +76,13 @@ public final class EasyAnticheatBase implements PacketListener {
         } else if (event instanceof PlayerInjectEvent) {
             PlayerInjectEvent e = (PlayerInjectEvent) event;
             uuid = e.getPlayer().getUniqueId();
-        }
-        else if(event instanceof PlayerUninjectEvent) {
-            PlayerUninjectEvent e = (PlayerUninjectEvent)event;
+        } else if (event instanceof PlayerUninjectEvent) {
+            PlayerUninjectEvent e = (PlayerUninjectEvent) event;
             uuid = e.getPlayer().getUniqueId();
-        }
-        else if(event instanceof BukkitMoveEvent) {
-            BukkitMoveEvent e = (BukkitMoveEvent)event;
-            uuid= e.getPlayer().getUniqueId();
-        }
-        else {
+        } else if (event instanceof BukkitMoveEvent) {
+            BukkitMoveEvent e = (BukkitMoveEvent) event;
+            uuid = e.getPlayer().getUniqueId();
+        } else {
             return;
         }
         if (uuid == null) return;

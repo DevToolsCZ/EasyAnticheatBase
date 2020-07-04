@@ -4,10 +4,10 @@ import io.github.retrooper.easyanticheatbase.check.api.data.Category;
 import io.github.retrooper.easyanticheatbase.events.CheckEvent;
 import io.github.retrooper.easyanticheatbase.events.PrivateCheckEvent;
 import io.github.retrooper.easyanticheatbase.playerdata.PlayerData;
-import org.bukkit.Bukkit;
 
-public abstract class PrivateCheck extends Check{
+public abstract class PrivateCheck extends Check {
     private final PlayerData playerData;
+
     public PrivateCheck(final PlayerData data, String name, char checkType, Category category) {
         super(name, checkType, category);
         this.playerData = data;
@@ -15,7 +15,7 @@ public abstract class PrivateCheck extends Check{
 
     @Override
     public CheckEvent onPreCheck(final CheckEvent checkEvent) {
-        if(checkEvent instanceof PrivateCheckEvent) {
+        if (checkEvent instanceof PrivateCheckEvent) {
             onCheck((PrivateCheckEvent) checkEvent);
         }
         return checkEvent;
@@ -30,7 +30,7 @@ public abstract class PrivateCheck extends Check{
         getPlayerData().incrementVL(this);
     }
 
-    public void comply(){
+    public void comply() {
         getPlayerData().decrementVL(this);
     }
 

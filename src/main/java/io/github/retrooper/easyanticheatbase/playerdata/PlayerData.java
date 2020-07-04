@@ -1,7 +1,6 @@
 package io.github.retrooper.easyanticheatbase.playerdata;
 
 import io.github.retrooper.easyanticheatbase.check.api.Check;
-import org.bukkit.Location;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,7 +9,7 @@ import java.util.UUID;
 public final class PlayerData {
     private final UUID uuid;
 
-    public PlayerData(final UUID uuid){
+    public PlayerData(final UUID uuid) {
         this.uuid = uuid;
     }
 
@@ -23,7 +22,7 @@ public final class PlayerData {
     }
 
     public float getVLCount(final Check check) {
-        return violations.get(check.getClass());
+        return violations.getOrDefault(check.getClass(), 0.0f);
     }
 
     public void addVL(final Check check, final float val) {
@@ -35,7 +34,7 @@ public final class PlayerData {
     }
 
     public void incrementVL(final Check check) {
-       addVL(check, 1.0F);
+        addVL(check, 1.0F);
     }
 
     public void decrementVL(final Check check) {

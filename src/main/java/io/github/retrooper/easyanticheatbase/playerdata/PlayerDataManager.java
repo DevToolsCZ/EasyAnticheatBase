@@ -31,14 +31,13 @@ public final class PlayerDataManager {
     }
 
     public PlayerData update(final PlayerData data) {
-        if(!exists(data.getUniqueId())) {
+        if (!exists(data.getUniqueId())) {
             registerUser(data.getUniqueId());
             return data;
-        }
-        else {
-            for(int i = 0; i < playerDataList.size(); i++) {
-                final PlayerData d  = playerDataList.get(i);
-                if(d.getUniqueId() == data.getUniqueId()) {
+        } else {
+            for (int i = 0; i < playerDataList.size(); i++) {
+                final PlayerData d = playerDataList.get(i);
+                if (d.getUniqueId() == data.getUniqueId()) {
                     playerDataList.set(i, data);
                     return data;
                 }

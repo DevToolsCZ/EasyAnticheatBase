@@ -3,6 +3,7 @@ package io.github.retrooper.easyanticheatbase.check.manager;
 import io.github.retrooper.easyanticheatbase.check.api.Check;
 import io.github.retrooper.easyanticheatbase.check.api.PrivateCheck;
 import io.github.retrooper.easyanticheatbase.check.api.PublicCheck;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -17,13 +18,12 @@ public final class CheckManager {
         if (check instanceof PublicCheck) {
             publicChecks.add((PublicCheck) check);
         } else if (check instanceof PrivateCheck) {
-            PrivateCheck privateCheck = (PrivateCheck)check;
-            if(privateCheck.getPlayerData() == null || privateCheck.getPlayerData().getUniqueId() == null)return;
+            PrivateCheck privateCheck = (PrivateCheck) check;
+            if (privateCheck.getPlayerData() == null || privateCheck.getPlayerData().getUniqueId() == null) return;
             final List<PrivateCheck> list;
-            if(privateChecks.containsKey(privateCheck.getPlayerData().getUniqueId())) {
+            if (privateChecks.containsKey(privateCheck.getPlayerData().getUniqueId())) {
                 list = privateChecks.get(privateCheck.getPlayerData().getUniqueId());
-            }
-            else {
+            } else {
                 list = new ArrayList<PrivateCheck>();
             }
             list.add(privateCheck);

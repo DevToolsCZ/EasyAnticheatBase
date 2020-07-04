@@ -18,7 +18,7 @@ public class TestPrivateCheck extends PrivateCheck {
 
             double deltaXZ = moveEvent.getTo().getX() - moveEvent.getFrom().getX() + moveEvent.getTo().getZ() - moveEvent.getFrom().getZ();
 
-           // moveEvent.getPlayer().sendMessage("deltaXZ: " + deltaXZ);
+            // moveEvent.getPlayer().sendMessage("deltaXZ: " + deltaXZ);
 
         }
         return super.onCheck(e);

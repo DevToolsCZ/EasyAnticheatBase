@@ -12,8 +12,8 @@ public abstract class PublicCheck extends Check {
 
     @Override
     public CheckEvent onPreCheck(final CheckEvent e) {
-        if(e instanceof PublicCheckEvent) {
-            onCheck((PublicCheckEvent)e);
+        if (e instanceof PublicCheckEvent) {
+            onCheck((PublicCheckEvent) e);
         }
         return e;
     }
