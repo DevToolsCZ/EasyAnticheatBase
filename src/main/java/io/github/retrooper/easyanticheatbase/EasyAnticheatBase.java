@@ -31,6 +31,7 @@ public final class EasyAnticheatBase implements PacketListener {
     }
 
     public static void start(Plugin plugin) {
+        PacketEvents.getSettings().setIdentifier("easyacbase");
         PacketEvents.start(plugin);
         PacketEvents.getAPI().getEventManager().registerListener(getInstance());
 
